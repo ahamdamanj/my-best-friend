@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Bestie! ✨</title>
+    <style>
+        /* --- GLOBAL STYLES & THEME --- */
+        :root {
+            --bg-dark: #0b0f19;     /* Deep Midnight Blue/Black */
+            --luxury-pink: #2e111f; /* Rich Wine/Deep Rose */
+            --gold: #dfba6b;        /* Elegant Gold */
+            --gold-light: #f4e3be;  /* Soft Highlight Gold */
+            --text-light: #f5f5f5;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Chronicle Display', 'Didot', 'Playfair Display', serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Mobile Container to mimic phone view */
+        .phone-wrapper {
+            width: 100%;
+            max-width: 420px;
+            height: 100vh;
+            background: var(--bg-dark);
+            position: relative;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+        }
+
+        /* Hide scrollbar */
+        .phone-wrapper::-webkit-scrollbar {
+            width: 0px;
+        }
+
+        /* --- STAGE 1: ENVELOPE ANIMATION --- */
+        .envelope-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            transition: opacity 1s ease, visibility 1s;
+        }
+
+        .envelope {
+            position: relative;
+            width: 320px;
+            height: 220px;
+            background-color: var(--luxury-pink);
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            cursor: pointer;
+        }
+
+        /* Envelope Flaps */
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 110px 160px 0 160px;
+            border-color: #42192d transparent transparent transparent;
+            z-index: 3;
+            transform-origin: top;
+            transition: transform 0.6s ease 0.4s;
+        }
+
+        /* Wax Seal */
+        .wax-seal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 75px;
+            height: 75px;
+            background: radial-gradient(circle, var(--gold-light) 0%, var(--gold) 100%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            z-index: 4;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4), inset 0 2px 4px rgba(255,255,255,0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: #4a3600;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            border: 2px solid #b38f39;
+            transition: transform 0.4s ease;
+            text-transform: uppercase;
+        }
+
+        .wax-seal:hover {
+            transform: translate(-50%, -50%) scale(1.05);
+        }
+
+        /* Opened State Classes */
+        .envelope-container.open .envelope::before {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        .envelope-container.open .wax-seal {
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+        }
+
+        .envelope-container.fade-out {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* --- STAGE 2: MAIN INVITATION CONTENT --- */
+        .main-content {opacity: 0;
+            transition: opacity 1s ease 1s;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 35px;
+        }
+
+        .phone-wrapper.active .main-content {
+            opacity: 1;
+        }
+
+        /* Section Styling */
+        section {
+            background: linear-gradient(135deg, rgba(46, 17, 31, 0.4) 0%, rgba(11, 15, 25, 0.6) 100%);
+            border: 1px solid rgba(223, 186, 107, 0.2);
+            border-radius: 16px;
+            padding: 35px 20px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+
+        .gold-text {
+            color: var(--gold);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+
+        /* Birthday Celebration Header */
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: var(--gold-light);
+            margin: 15px 0;
+            line-height: 1.3;
+        }
+
+        .sparkles {
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+            display: block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .letter-body {
+            font-size: 1rem;
+            color: #dddddd;
+            line-height: 1.8;
+            margin: 25px 0;
+            text-align: left;
+            white-space: pre-line;
+            border-top: 1px dashed rgba(223, 186, 107, 0.2);
+            border-bottom: 1px dashed rgba(223, 186, 107, 0.2);
+            padding: 20px 5px;
+        }
+
+        /* Memory Photo Cards */
+        .memory-gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .photo-card {
+            width: 100%;
+            height: 280px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(223, 186, 107, 0.3);
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Highlight box */
+        .highlight-box {
+            background: rgba(223, 186, 107, 0.08);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 3px solid var(--gold);
+            font-size: 1.1rem;
+            color: var(--gold-light);
+            font-weight: bold;
+        }
+
+        /* Footer Alignment */
+        .footer-graphic {
+            margin: 15px 0 30px 0;
+            text-align: center;
+            opacity: 0.8;
+            font-size: 1.8rem;
+            color: var(--gold);
+        }
+
+        /* --- FLOATING MUSIC BUTTON --- */
+        .music-toggle-btn {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: rgba(223, 186, 107, 0.2);
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.4rem;
+            color: var(--gold-light);
+            cursor: pointer;
+            z-index: 90;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            transition: all 0.3s ease;
+            opacity: 0; 
+            pointer-events: none;
+        }
+
+        .phone-wrapper.active .music-toggle-btn {
+            opacity: 1;
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="birthdayMusic" loop playsinline>
+        <source src="3.m4a" type="audio/mp4">
+        <source src="3.mp3" type="audio/mp3">
+    </audio>
+
+    <div class="phone-wrapper" id="phoneWrapper">
+        
+        <div class="envelope-container" id="envelopeContainer">
+            <div class="envelope" onclick="openEnvelope()"><div class="wax-seal">Open Me</div>
+            </div>
+        </div>
+
+        <div class="music-toggle-btn" id="musicBtn" onclick="toggleMusic()">🎵</div>
+
+        <div class="main-content">
+            
+            <section class="hero">
+                <span class="sparkles">✨🎂✨</span>
+                <div class="gold-text">To My Best Friend In The World</div>
+                <h1>Happy Birthday to My Best Friend!</h1>
+                
+                <p class="letter-body">
+                    Happy Birthday to the most incredible person I know! Thank you for always being by my side, for making me laugh until it hurts, and for being the truest friend anyone could ever ask for. 
+
+                    Today is all about celebrating you and the beautiful light you bring into everyone's lives. I'm so lucky to walk through life with a best friend like you.
+                </p>
+
+                <div class="highlight-box">
+                    To To Lateki la dlli mnnnn 🙂❤️
+                </div>
+            </section>
+
+            <section>
+                <div class="memory-gallery">
+                    <div class="photo-card">
+                        <img src="1.jpg" alt="Memory Photo 1">
+                    </div>
+                    
+                    <div class="photo-card">
+                        <img src="2.jpg" alt="Memory Photo 2">
+                    </div>
+                </div>
+            </section>
+
+            <div class="footer-graphic">❤️ Happy Birthday (Hama) ❤️</div>
+
+        </div>
+    </div>
+
+    <script>
+        const music = document.getElementById('birthdayMusic');
+        const musicBtn = document.getElementById('musicBtn');
+
+        // Setup Audio context to bypass strict mobile hardware blocks
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx;
+
+        function openEnvelope() {
+            if (!audioCtx) {
+                audioCtx = new AudioContext();
+            }
+            
+            const container = document.getElementById('envelopeContainer');
+            const wrapper = document.getElementById('phoneWrapper');
+            
+            // Force play audio context directly on user gesture
+            playAudio();
+            
+            container.classList.add('open');
+            
+            setTimeout(() => {
+                container.classList.add('fade-out');
+                wrapper.classList.add('active');
+            }, 1200);
+        }
+
+        function playAudio() {
+            music.play().then(() => {
+                musicBtn.innerText = "🎵";
+            }).catch(error => {
+                console.log("Audio presentation blocked initially:", error);
+                musicBtn.innerText = "🔇"; 
+            });
+        }
+
+        function toggleMusic() {
+            if (music.paused) {
+                music.play();
+                musicBtn.innerText = "🎵";
+            } else {
+                music.pause();
+                musicBtn.innerText = "🔇";
+            }
+        }
+    </script>
+</body>
+</html>
